@@ -8,11 +8,12 @@ spec:
   replicas: 2
   selector: 
     matchLabels:
-      environment: roboshop-dev
+      env: app2
   template:
     metadata:
       labels:
-        environment: roboshop-dev
+        env: app2
+        
     spec:
       containers:
         - name: app2
@@ -24,7 +25,7 @@ metadata:
   name: app2
 spec:
   selector:
-    environment: roboshop-dev
+    env: app2
   ports:
     - protocol: TCP
       port: 80

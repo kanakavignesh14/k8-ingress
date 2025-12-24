@@ -39,12 +39,12 @@ metadata:
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:319255955334:certificate/e99f48d0-cbbc-4c54-bff3-757d35c68a7c
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/tags: Environment=dev,Project=roboshop
-    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/target-type: ip #“Send traffic directly to Pod IPs instead of Node IPs”
     alb.ingress.kubernetes.io/group.name: roboshop 
 spec:
-  ingressClassName: alb
+  ingressClassName: alb # use Aws LB controller and create Application LB
   rules:
-    - host: "app1.vigi-devops.fun"
+    - host: "app1.vigi-devops.fun" # rule
       http:
         paths:
           - pathType: Prefix
