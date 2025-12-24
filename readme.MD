@@ -61,7 +61,8 @@ helm repo add eks https://aws.github.io/eks-charts
 
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=roboshop-dev --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
 
-
+# name= aws-load-balancer-controller ---> service acct name
+# we provided service account with policy attached by using role is given during AWS load balancer contoller creation
 
 8.kubectl get pods -n kube-system
 

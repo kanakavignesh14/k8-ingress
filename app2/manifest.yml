@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-pod
+  name: app2-pod
   labels:
-    environment: app1-pod-dev
+    environment: app2-pod-dev
 spec:
   replicas: 2
   selector: 
@@ -15,13 +15,13 @@ spec:
         environment: roboshop-dev
     spec:
       containers:
-        - name: app1
-          image: kanakavignesh/app1:v1     
+        - name: app2
+          image: kanakavignesh/app2:v1     
 ---
 apiVersion: v1
 kind: Service
 metadata: 
-  name: app1
+  name: app2
 spec:
   selector:
     environment: roboshop-dev
@@ -33,7 +33,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app1 
+  name: app2 
   annotations:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:319255955334:certificate/e99f48d0-cbbc-4c54-bff3-757d35c68a7c
@@ -44,13 +44,13 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: "app1.vigi-devops.fun"
+    - host: "app2.vigi-devops.fun"
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
-              service:   # it is conatcting to service app1
-                name: app1
+              service:   # it is conatcting to service app2
+                name: app2
                 port:
-                  number: 80
+                  number: 80 # service port
