@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: app1-pod
+   # these are replica set labels
+   labels:
+      envronment:  app1-pod-dev
+
+spec:
+   replicas: 1
+   # these labels are used to select pods
+   selector: 
+      matchLabels:
+           envronment:  roboshop-dev
+#like pod defination we are not giving pod name here
+   template:
+      metadata:
+        labels:
+           envronment:  roboshop-dev
+      spec:
+        containers:
+        - name: app1
+          image: kanakavignesh/app1:v1     
+ 
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+   name: app1  # service name
+spec:
+  selector:
+     envronment:  roboshop-dev
+  ports:
+     - protocol: TCP
+       port: 80 # sevice port
+       targetPort: 80 # container port   forwart req to another container
+
+---
+#this is Ingress ----> which will foward to  respective service in our case if anyone hit app1.vigi-devops.fun then ingress will direct to app1 servie from there to their pods 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app1  
+spec:
+  ingressClassName: alb
+  rules:
+  - host: "app1.vigi-devops.fun"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: app1
+            port:
+              number: 80
